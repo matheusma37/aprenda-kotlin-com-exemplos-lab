@@ -39,18 +39,45 @@ data class Usuario(
 
 enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
 
-data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
+data class ConteudoEducacional(
+    var nome: String,
+    val duracao: Int = 60,
+    val nivel: Nivel,
+    val formacoes: MutableSet<Formacao> = mutableSetOf<Formacao>(),
+) : Ideable() {
+    val durationInHours: String
+        get() {
+            val result = Math.ceil(duracao/60.toDouble()).toInt()
+            return "${result} hora${if(result > 1) "s" else ""}"
+        }
+
+    fun addFormacao(formacao: Formacao): Boolean = formacoes.add(formacao)
+
+    override fun toString(): String = with(this) {
+        "ConteudoEducacional(id=$id, nome=$nome, duracao=$duracao, nivel=$nivel, formacoes=$formacoes)"
+    }
+    override fun hashCode(): Int {
+        return with(this) {
+            31 * id.hashCode() + nome.hashCode() + duracao.hashCode() + nivel.hashCode()
+        }
+    }
+}
 
 data class Formacao(
     val nome: String,
     val nivel: Nivel,
-    var conteudos: List<ConteudoEducacional>,
+    var conteudos: MutableSet<ConteudoEducacional>,
 ) : Ideable() {
     val inscritos = mutableSetOf<Usuario>()
 
     fun matricular(usuario: Usuario): Boolean {
         inscritos.add(usuario)
         return usuario.matricular(this)
+    }
+
+    fun addConteudo(conteudo: ConteudoEducacional): Boolean {
+        conteudos.add(conteudo)
+        return conteudo.addFormacao(this)
     }
 
     fun listarInscritos() {
