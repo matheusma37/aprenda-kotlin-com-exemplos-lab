@@ -2,14 +2,22 @@
 
 import java.util.UUID
 
+open class Ideable {
+    val id: String = UUID.randomUUID().toString()
+
+    override fun equals(other: Any?): Boolean {
+        return other is Ideable &&
+            other::class.qualifiedName == this::class.qualifiedName &&
+            other.id == this.id
+    }
+}
+
 data class Usuario(
     var nome: String,
     val email: String,
     var ehPro: Boolean = false,
     val formacoes: MutableSet<Formacao> = mutableSetOf<Formacao>(),
-) {
-    val id: String = UUID.randomUUID().toString()
-
+) : Ideable() {
     fun matricular(formacao: Formacao): Boolean {
         return if(ehPro) {
             formacoes.add(formacao)
@@ -19,7 +27,6 @@ data class Usuario(
         }
     }
 
-    override fun equals(other: Any?): Boolean = other is Usuario && other.id == this.id
     override fun toString(): String = with(this) {
         "Usuario(id=$id, nome=$nome, email=$email, ehPro=$ehPro, formacoes=$formacoes)"
     }
@@ -38,8 +45,7 @@ data class Formacao(
     val nome: String,
     val nivel: Nivel,
     var conteudos: List<ConteudoEducacional>,
-) {
-    val id: String = UUID.randomUUID().toString()
+) : Ideable() {
     val inscritos = mutableSetOf<Usuario>()
 
     fun matricular(usuario: Usuario): Boolean {
@@ -55,7 +61,6 @@ data class Formacao(
         conteudos.forEach(::println)
     }
 
-    override fun equals(other: Any?): Boolean = other is Formacao && other.id == this.id
     override fun toString(): String = with(this) {
         "Formacao(id=$id, nome=$nome, nivel=$nivel, conteudos=$conteudos, inscritos=$inscritos)"
     }
