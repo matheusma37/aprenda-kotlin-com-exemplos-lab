@@ -99,6 +99,52 @@ data class Formacao(
 }
 
 fun main() {
-    TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+    val usuario: Usuario = Usuario("Matheus", "matheus@mail.com")
+    with(usuario) {
+        println(this)
+        println(id)
+        println(nome)
+        println(email)
+        println(ehPro)
+    }
+
+    println()
+
+    val conteudoEducacional = ConteudoEducacional("Introdução", 59, Nivel.BASICO)
+    with(conteudoEducacional) {
+        println(this)
+        println(id)
+        println(nome)
+        println(duracao)
+        println(nivel)
+        println(durationInHours)
+    }
+
+    println()
+
+    val outroConteudoEducacional: ConteudoEducacional = ConteudoEducacional("Laços e Condicionais", 90, Nivel.INTERMEDIARIO)
+    val formacao: Formacao = Formacao("Formação Kotlin Backend", Nivel.INTERMEDIARIO, mutableSetOf<ConteudoEducacional>())
+    with(formacao) {
+        println(this)
+        println(id)
+        println(nome)
+        println(nivel)
+        println("Listando conteúdos:")
+        listarConteudos()
+        addConteudo(conteudoEducacional)
+        addConteudo(outroConteudoEducacional)
+        println("Listando conteúdos:")
+        listarConteudos()
+        println("Listando inscritos:")
+        listarInscritos()
+        matricular(usuario)
+        println("Listando inscritos:")
+        listarInscritos()
+    }
+
+    println("Listando formações (usuário):")
+    println(usuario.formacoes)
+
+    println("Listando formações (conteúdo):")
+    println(conteudoEducacional.formacoes)
 }
