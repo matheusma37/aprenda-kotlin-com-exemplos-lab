@@ -28,7 +28,7 @@ data class Usuario(
     }
 
     override fun toString(): String = with(this) {
-        "Usuario(id=$id, nome=$nome, email=$email, ehPro=$ehPro, formacoes=$formacoes)"
+        "Usuario(id=$id, nome=$nome, email=$email, ehPro=$ehPro)"
     }
     override fun hashCode(): Int {
         return with(this) {
@@ -54,7 +54,7 @@ data class ConteudoEducacional(
     fun addFormacao(formacao: Formacao): Boolean = formacoes.add(formacao)
 
     override fun toString(): String = with(this) {
-        "ConteudoEducacional(id=$id, nome=$nome, duracao=$duracao, nivel=$nivel, formacoes=$formacoes)"
+        "ConteudoEducacional(id=$id, nome=$nome, duracao=$duracao, nivel=$nivel)"
     }
     override fun hashCode(): Int {
         return with(this) {
@@ -89,7 +89,7 @@ data class Formacao(
     }
 
     override fun toString(): String = with(this) {
-        "Formacao(id=$id, nome=$nome, nivel=$nivel, conteudos=$conteudos, inscritos=$inscritos)"
+        "Formacao(id=$id, nome=$nome, nivel=$nivel)"
     }
     override fun hashCode(): Int {
         return with(this) {
